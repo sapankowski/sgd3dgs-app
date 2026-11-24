@@ -78,6 +78,10 @@ make editor-install
 make editor-test
 make editor-dev
 ```
+or
+```bash
+npm --prefix apps/editor run develop
+```
 
 Open `http://localhost:3000`. The initial editor is the pinned SuperSplat
 baseline; project-specific object selection will be added in reviewed PRs.
