@@ -198,20 +198,42 @@ Convert one real method output into canonical `object_id.npy`, validate it again
 the scene manifest, load it in the editor, select the object by name, and move it
 without duplicating the complete source scene.
 
+### Starting point after Week 1
+
+- The reference is `lerf-mask-ramen`; the target is the yellow bowl, excluding
+  the food.
+- The exact 1,266,122-Gaussian PLY, classifier, configuration and checksums are
+  in the private
+  [SGD3DGS artifact repository](https://huggingface.co/datasets/SGD3DGS/sgd3dgs-artifacts).
+- Gaussian Grouping produced a documented real ramen result and exporter, but
+  its arrays, logs and renders still need publication.
+- SAGA produced a verified truck fallback. A matched SAGA ramen result and the
+  final supported-baseline decision remain deferred.
+- Persons 1–2 demonstrated the existing editor selection, transform and undo
+  machinery. Week 2 should bridge labels into it, not redesign those controls.
+
+Use Gaussian Grouping as the **provisional integration input** this week. This
+is a practical bridge decision, not final baseline approval.
+
 ### Individual work
 
-| Person | Core task | Evidence due Tuesday |
+| Person | Core task, sized for 5–8 hours | Evidence due Tuesday |
 |---|---|---|
-| Person 1 | Add the smallest object list/panel that reads fixture metadata and selects one object. Reuse existing editor selection and transform commands. | PR and recording: choose object → highlight → translate → undo. |
-| Person 2 | Prototype an in-memory `object_id → Gaussian index/range` structure and a shared-data layer or selection path. Measure selection time on the reference scene. | Code/benchmark note and recommendation for layer versus selection-state representation. |
-| Person 3 | Turn the selected Week-1 method into a repeatable single-object command or documented sequence. Remove hard-coded personal paths. | One reproducible experiment from clean input to raw mask. |
-| Person 4 | Implement/finish the raw-mask-to-`uint16` converter with checksum/count validation and provenance fields. Add tests for wrong length and wrong source. | Converter PR, tests, canonical output, updated manifest. |
-| Person 5 | Implement a conservative spatial cleanup spike: identify distant label islands and report them without deleting data by default. | Experiment report showing before/after candidates in three views. |
-| Person 6 | Add integration tests/fixtures for manifest and converter behavior; coordinate one clean-machine or clean-environment reproduction. | CI result, reproduction notes, and Week-2 integration demo script. |
+| Person 1 | Add the smallest object list/panel that reads fixture metadata and selects one object. Reuse the documented `select.mask` path and existing transform/undo commands. Start with a fixture; use the real bowl package if it arrives in time. Do not add click picking yet. | PR and short recording: choose object → highlight → translate/rotate → undo. |
+| Person 2 | Prototype an in-memory `object_id → Gaussian indices/ranges` structure and shared-data layer or selection-state path. Benchmark the fixture and, when labels arrive, the 1,266,122-Gaussian ramen scene. | Code, selection-time measurement and a recommendation for layer versus selection-state representation. |
+| Person 3 | Reproduce the provisional Gaussian Grouping path from pinned ramen input to raw mask in a clean environment. Reuse Person 5's exporter; remove personal paths and do not create another exporter. | Exact command/config, clean-run log, raw-mask checksum and selected count. |
+| Person 4 | Implement the raw-mask-to-`uint16` converter with source checksum, Gaussian-count and provenance checks. Add wrong-length and wrong-source tests, run it on the real output, and update the manifest. | Converter PR, tests, canonical `object_id.npy` and successful `--check-files` validation. |
+| Person 5 | Publish the Gaussian Grouping native ID, confidence and mask arrays, receipt, logs and renders to Hugging Face. Then report distant spatial islands as conservative cleanup candidates without deleting data by default. | Artifact paths/checksums and a three-view before/candidate cleanup report. |
+| Person 6 | Add manifest/converter integration fixtures and tests, verify published checksums, coordinate one clean-environment reproduction, and validate the complete real package when Persons 4–5 deliver it. Do not build another mask viewer. | CI result, reproduction notes, package-validation result and a short integration demo checklist. |
+
+Persons 1–2 work from fixtures immediately and must not wait for the real
+package. Persons 3–5 produce the artifact path; Person 6 validates it
+independently. Large files and recordings go to Hugging Face, never GitHub.
 
 ### Core exit criteria
 
 - A canonical label array exists and is tied to a source checksum.
+- The real ramen package passes validation with file checks enabled.
 - The editor selects an object from metadata without copying all Gaussian data.
 - Translation, rotation, highlight, and undo use existing command machinery.
 - The method and converter are separately reproducible.
@@ -224,7 +246,10 @@ without duplicating the complete source scene.
 ### Tuesday decision
 
 Approve scene schema 0.1 for the MVP. Any change after approval requires a small
-ADR and migration discussion.
+ADR and migration discussion. If real artifacts arrive too late, demonstrate
+the fixture bridge and converter tests rather than claiming real integration;
+carry only the package run into Week 3. Click selection remains Week 3 work,
+and generative repair remains scheduled for later weeks.
 
 ---
 
